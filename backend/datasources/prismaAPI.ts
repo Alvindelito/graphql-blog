@@ -23,7 +23,7 @@ export default class prismaAPI extends DataSource {
     });
 
     const result = await bcrypt.compare(password, user.password)
-    return await result ? user : 'incorrect field';
+    return result ? user : 'incorrect field';
   }
 
   // GET INFO
