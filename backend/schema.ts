@@ -22,6 +22,7 @@ const typeDefs = gql`
   input CreateUserInput {
     email: String!
     name: String!
+    password: String!
     bio: String,
   }
 
@@ -69,6 +70,7 @@ const typeDefs = gql`
   type User {
   id: ID!
   email: String
+  password: String
   name: String
   posts: [Post]
   profile: Profile
