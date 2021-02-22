@@ -2,27 +2,37 @@ import { gql } from 'apollo-server';
 
 const typeDefs = gql`
   type Query {
-    getAllUsers: [User],
-    getAllPosts: [Post],
-    getUser(userId: ID!): User,
-    getPost(postId: ID!): Post,
-    getPostsByUser(authorId: ID!): [Post],
+    getAllUsers: [User]
+    getAllPosts: [Post]
+    getUser(userId: ID!): User
+    getPost(postId: ID!): Post
+    getPostsByUser(authorId: ID!): [Post]
   }
 
   type Mutation {
-    createUser(data: CreateUserInput): User,
-    createPost(data: CreatePostInput): Post,
-    updateUser(data: UpdateUserInput): User,
-    updatePost(data: UpdatePostInput): Post,
-    updateBio(data: UpdateBio): Profile,
-    deletePost(id: ID!): Post,
-    deleteUser(id: ID!): User,
+    createUser(data: CreateUserInput): User
+    createPost(data: CreatePostInput): Post
+
+    updateUser(data: UpdateUserInput): User
+    updatePost(data: UpdatePostInput): Post
+    updateBio(data: UpdateBio): Profile
+
+    deletePost(id: ID!): Post
+    deleteUser(id: ID!): User
+
+    loginUser(data: UserLoginInput): User
+  }
+
+  input UserLoginInput {
+    email: String!
+    password: String!
   }
 
   input CreateUserInput {
     email: String!
     name: String!
-    bio: String,
+    password: String!
+    bio: String
   }
 
   input CreatePostInput {
@@ -67,8 +77,9 @@ const typeDefs = gql`
   }
 
   type User {
-  id: ID!
+  id: ID
   email: String
+  password: String
   name: String
   posts: [Post]
   profile: Profile

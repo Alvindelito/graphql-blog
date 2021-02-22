@@ -26,6 +26,8 @@ const resolvers = {
 
     deleteUser: (_: any, { id }: any, { dataSources}: any) => dataSources.prismaAPI.deleteUser( { id }),
 
+    loginUser: (_: any, { data }: any, { dataSources}: any) => dataSources.prismaAPI.loginUser( { data }),
+
   }
 }
 
