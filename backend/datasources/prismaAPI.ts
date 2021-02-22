@@ -14,7 +14,6 @@ export default class prismaAPI extends DataSource {
     this.context = config.context
   }
 
-  // USER LOGIN
   async loginUser({ data: { email, password }}: any) {
     // get hashed password from db
     const user = await this.prisma.user.findUnique({
@@ -78,7 +77,7 @@ export default class prismaAPI extends DataSource {
     })
   }
 
-  // CREATE USER & POST
+  // CREATE
   async createUser({ data: { email, password, name, bio }}: any) {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
