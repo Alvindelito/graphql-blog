@@ -1,4 +1,5 @@
 import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client'
+import Page from '../components/Page';
 import '../styles/globals.css'
 
 const client = new ApolloClient({
@@ -13,7 +14,7 @@ const client = new ApolloClient({
 function MyApp({ Component, pageProps }) {
   return (
     <ApolloProvider client={ client }>
-      <Component {...pageProps} />
+      <Page><Component {...pageProps} /></Page>
     </ApolloProvider>
   )
 }
