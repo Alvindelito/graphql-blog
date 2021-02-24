@@ -4,12 +4,12 @@ const PostStyles = styled.div`
   margin: 50px;
 `;
 
-export default function Post({ post}) {
+export default function Post({ post }) {
   return (
     <PostStyles>
       <h3>{post.title}</h3>
       <p>{post.content}</p>
       <p>posted by: {post.author.name}</p>
     </PostStyles>
-  )
+  );
 }

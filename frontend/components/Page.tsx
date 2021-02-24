@@ -10,6 +10,8 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: inherit;
   }
   body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     padding: 0;
     margin: 0;
     font-size: 1.5rem;
@@ -34,7 +36,7 @@ export default function Page({ children }) {
   return (
     <div>
       <GlobalStyles />
-      <InnerStyles>{ children }</InnerStyles>
+      <InnerStyles>{children}</InnerStyles>
     </div>
-  )
+  );
 }
