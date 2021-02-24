@@ -1,8 +1,14 @@
 import styled, { createGlobalStyle } from 'styled-components';
+import Header from './Header';
 
 const GlobalStyles = createGlobalStyle`
   html {
-    /* add variables here for colors */
+    --red: #e63946;
+    --white: #f1faee;
+    --lightBlue: #a8dadc;
+    --blue: #457b9d;
+    --darkBlue: #1d3557;
+    --maxWidth: 1000px;
     box-sizing: border-box;
     font-size: 62.5%;
   }
@@ -16,10 +22,11 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     font-size: 1.5rem;
     line-height: 2;
+    background-color: var(--white);
   }
   a {
     text-decoration: none;
-    color: black; /* replace with variable */
+    color: var(--darkBlue);
   }
   a:hover {
     text-decoration: underline;
@@ -27,7 +34,7 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const InnerStyles = styled.div`
-  max-width: 1000px; /* change to variable */
+  max-width: var(--maxWidth);
   margin: 0 auto;
   padding: 2rem;
 `;
@@ -36,6 +43,7 @@ export default function Page({ children }) {
   return (
     <div>
       <GlobalStyles />
+      <Header />
       <InnerStyles>{children}</InnerStyles>
     </div>
   );
