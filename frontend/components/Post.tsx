@@ -1,15 +1,24 @@
 import styled from 'styled-components';
+import convertDate from '../lib/convertDate';
 
-const PostStyles = styled.div`
+const PostStyle = styled.div`
   margin: 50px auto;
+  border: 1px solid black;
+  width: 700px;
+`;
+
+const TitleStyle = styled.h2`
+  font-weight: bold;
+  font-size: 3rem;
+  margin: 8px;
 `;
 
 export default function Post({ post }) {
   return (
-    <PostStyles>
-      <h3>{post.title}</h3>
+    <PostStyle>
+      <TitleStyle>{post.title}</TitleStyle>
       <p>{post.content}</p>
-      <p>posted by: {post.author.name}</p>
-    </PostStyles>
+      <p>Created at {convertDate(post.createdAt)}</p>
+    </PostStyle>
   );
 }
