@@ -2,7 +2,12 @@ import styled, { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   html {
-    /* add variables here for colors */
+    --red: #e63946;
+    --white: #f1faee;
+    --lightBlue: #a8dadc;
+    --blue: #457b9d;
+    --darkBlue: #1d3557;
+    --maxWidth: 1000px;
     box-sizing: border-box;
     font-size: 62.5%;
   }
@@ -16,10 +21,11 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     font-size: 1.5rem;
     line-height: 2;
+    background-color: var(--white);
   }
   a {
     text-decoration: none;
-    color: black; /* replace with variable */
+    color: var(--darkBlue); /* replace with variable */
   }
   a:hover {
     text-decoration: underline;
@@ -27,7 +33,7 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 const InnerStyles = styled.div`
-  max-width: 1000px; /* change to variable */
+  max-width: var(--maxWidth); /* change to variable */
   margin: 0 auto;
   padding: 2rem;
 `;

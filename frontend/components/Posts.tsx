@@ -2,7 +2,6 @@ import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import Post from './Post';
 
-
 const GET_ALL_POSTS = gql`
   query GET_ALL_POSTS {
     getAllPosts {
@@ -18,15 +17,16 @@ const GET_ALL_POSTS = gql`
 `;
 
 export default function Posts() {
-  const { loading, error, data} = useQuery(GET_ALL_POSTS);
+  const { loading, error, data } = useQuery(GET_ALL_POSTS);
 
-  if (loading) return <p>loading</p>
-  if (error) return <p>Error</p>
+  if (loading) return <p>loading</p>;
+  if (error) return <p>Error</p>;
 
   return (
     <div>
-      {data?.getAllPosts.map((post: object, key: number) => <Post post={post} key={key} />
-      )}
+      {data?.getAllPosts.map((post: any) => (
+        <Post post={post} key={post.id} />
+      ))}
     </div>
-  )
+  );
 }
