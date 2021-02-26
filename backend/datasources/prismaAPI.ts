@@ -11,7 +11,7 @@ export default class prismaAPI extends DataSource {
     this.prisma = prisma;
   }
 
-  initialize(config) {
+  initialize(config: any) {
     this.context = config.context
   }
 

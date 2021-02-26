@@ -8,6 +8,7 @@ const typeDefs = gql`
     getUser(userId: ID!): User
     getPost(postId: ID!): Post
     getPostsByUser(authorId: ID!): [Post]
+    auth: String
   }
 
   type Mutation {
@@ -88,6 +89,10 @@ const typeDefs = gql`
 
   type LoginAuth {
     accessToken: String
+  }
+
+  type UserAuth {
+    id: Int
   }
 
 
