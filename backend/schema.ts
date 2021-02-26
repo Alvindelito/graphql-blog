@@ -1,4 +1,5 @@
-import { gql } from 'apollo-server';
+import { gql } from 'apollo-server-express';
+import { Request, Response } from 'express';
 
 const typeDefs = gql`
   type Query {
@@ -7,6 +8,7 @@ const typeDefs = gql`
     getUser(userId: ID!): User
     getPost(postId: ID!): Post
     getPostsByUser(authorId: ID!): [Post]
+    auth: String
   }
 
   type Mutation {
@@ -20,7 +22,7 @@ const typeDefs = gql`
     deletePost(id: ID!): Post
     deleteUser(id: ID!): User
 
-    loginUser(data: UserLoginInput): User
+    loginUser(data: UserLoginInput): LoginAuth
   }
 
   input UserLoginInput {
@@ -84,6 +86,15 @@ const typeDefs = gql`
   posts: [Post]
   profile: Profile
   }
+
+  type LoginAuth {
+    accessToken: String
+  }
+
+  type UserAuth {
+    id: Int
+  }
+
 
 `;
 

@@ -1,3 +1,5 @@
+import { isAuth } from "./lib/isAuth";
+
 const resolvers = {
   Query: {
     getAllUsers: (_: any, __: any, { dataSources }: any) => dataSources.prismaAPI.getAllUsers(),
@@ -9,6 +11,11 @@ const resolvers = {
     getPost: (_: any, postId: any, { dataSources }: any) => dataSources.prismaAPI.getPost(postId),
 
     getPostsByUser: (_: any, authorId: any, { dataSources }: any) => dataSources.prismaAPI.getPostsByUser(authorId),
+
+    auth: (_: any, __: any, context: any) => {
+      const user = isAuth(context) as any;
+      return `Your user id is ${user.userId}`;
+    },
 
   },
   Mutation: {
@@ -26,7 +33,7 @@ const resolvers = {
 
     deleteUser: (_: any, { id }: any, { dataSources}: any) => dataSources.prismaAPI.deleteUser( { id }),
 
-    loginUser: (_: any, { data }: any, { dataSources}: any) => dataSources.prismaAPI.loginUser( { data }),
+    loginUser: (_: any, { data }: any, { dataSources, res}: any) => dataSources.prismaAPI.loginUser( { data }, { res }),
 
   }
 }
