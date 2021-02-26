@@ -1,5 +1,6 @@
 import { DataSource } from "apollo-datasource"
 import bcrypt from 'bcrypt';
+import { createAccessToken, createRefreshToken } from "../lib/auth";
 
 export default class prismaAPI extends DataSource {
   prisma: any;
@@ -14,16 +15,32 @@ export default class prismaAPI extends DataSource {
     this.context = config.context
   }
 
-  async loginUser({ data: { email, password }}: any) {
-    // get hashed password from db
+  async loginUser({ data: { email, password }}: any, { res }) {
     const user = await this.prisma.user.findUnique({
       where: {
         email: email
       }
     });
 
-    const result = await bcrypt.compare(password, user.password)
-    return result ? user : 'incorrect field';
+    if (!user) {
+      throw new Error('User does not exist');
+    }
+
+    const valid = await bcrypt.compare(password, user.password)
+    if (!valid) {
+      throw new Error('Password is incorrect');
+    }
+
+    // successful login
+    res.cookie('jid',
+      createRefreshToken(user),
+      {
+        httpOnly: true
+      }
+     )
+    return {
+      accessToken: createAccessToken(user)
+    };
   }
 
   // GET INFO
