@@ -12,6 +12,7 @@ const GET_ALL_POSTS = gql`
       author {
         name
       }
+      createdAt
     }
   }
 `;
