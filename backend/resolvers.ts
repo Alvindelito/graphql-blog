@@ -35,6 +35,8 @@ const resolvers = {
 
     loginUser: (_: any, { data }: any, { dataSources, res}: any) => dataSources.prismaAPI.loginUser( { data }, { res }),
 
+    revokeRefreshTokensForUser: (_: any, { id }: any, { dataSources }: any) => dataSources.prismaAPI.revokeRefreshTokensForUser({ id }),
+
   }
 }
 

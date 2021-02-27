@@ -32,6 +32,7 @@ model User {
   id       Int      @id @default(autoincrement())
   email    String   @unique
   password String   @default("password") @db.VarChar(255)
+  tokenVersion Int @default(0)
   name     String?
   posts    Post[]
   profile  Profile?

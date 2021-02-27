@@ -1,6 +1,7 @@
 import { DataSource } from "apollo-datasource"
 import bcrypt from 'bcrypt';
 import { createAccessToken, createRefreshToken } from "../lib/auth";
+import { sendRefreshToken } from "../lib/sendRefreshToken";
 
 export default class prismaAPI extends DataSource {
   prisma: any;
@@ -32,15 +33,25 @@ export default class prismaAPI extends DataSource {
     }
 
     // successful login
-    res.cookie('jid',
-      createRefreshToken(user),
-      {
-        httpOnly: true
-      }
-     )
+    sendRefreshToken(res, createRefreshToken(user));
+
     return {
       accessToken: createAccessToken(user)
     };
+  }
+
+  async revokeRefreshTokensForUser({ id }) {
+    await this.prisma.user.update({
+      where: {
+        id: parseInt(id)
+      },
+      data: {
+        tokenVersion: {
+          increment: 1,
+        },
+      },
+    })
+    return true;
   }
 
   // GET INFO
