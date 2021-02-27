@@ -23,6 +23,7 @@ const typeDefs = gql`
     deleteUser(id: ID!): User
 
     loginUser(data: UserLoginInput): LoginAuth
+    revokeRefreshTokensForUser(id: ID!): Boolean
   }
 
   input UserLoginInput {
@@ -82,6 +83,7 @@ const typeDefs = gql`
   id: ID
   email: String
   password: String
+  tokenVersion: Int
   name: String
   posts: [Post]
   profile: Profile
