@@ -13,6 +13,7 @@ export default function SignIn() {
 
   return (
     <form method="/" onSubmit={handleSubmit}>
+      <h2>Sign In</h2>
       <label htmlFor="email">
         Email:
         <input

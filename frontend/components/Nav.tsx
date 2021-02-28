@@ -26,6 +26,8 @@ export default function Nav() {
     <NavStyle>
       <Link href="/">Home</Link>
       <Link href="/">Profile</Link>
+      <Link href="/signin">Sign In</Link>
+      <Link href="/register">Register</Link>
     </NavStyle>
   );
 }
