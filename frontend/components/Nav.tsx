@@ -28,6 +28,7 @@ export default function Nav() {
       <Link href="/">Profile</Link>
       <Link href="/signin">Sign In</Link>
       <Link href="/register">Register</Link>
+      <Link href="/auth">Auth</Link>
     </NavStyle>
   );
 }

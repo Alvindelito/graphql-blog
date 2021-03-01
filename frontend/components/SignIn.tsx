@@ -1,4 +1,15 @@
+import { useMutation } from '@apollo/client';
+import gql from 'graphql-tag';
 import useForm from './hooks/useForm';
+import { setAccessToken } from '../lib/accessToken';
+
+const LOGIN_MUTATION = gql`
+  mutation LOGIN_MUTATION($email: String!, $password: String!) {
+    loginUser(data: { email: $email, password: $password }) {
+      accessToken
+    }
+  }
+`;
 
 export default function SignIn() {
   const { inputs, handleChange }: any = useForm({
@@ -6,9 +17,21 @@ export default function SignIn() {
     password: '',
   });
 
+  const [signin, { error }]: any = useMutation(LOGIN_MUTATION, {
+    variables: {
+      email: inputs.email,
+      password: inputs.password,
+    },
+  });
+
   // TODO: fix event type
-  function handleSubmit(e: any) {
+  async function handleSubmit(e: any) {
     e.preventDefault();
+    const res = await signin();
+    console.log(res);
+    if (res && res.data) {
+      setAccessToken(res.data.loginUser.accessToken);
+    }
   }
 
   return (

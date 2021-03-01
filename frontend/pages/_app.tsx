@@ -1,17 +1,36 @@
 import {
   ApolloClient,
+  ApolloLink,
   ApolloProvider,
-  createHttpLink,
+  from,
+  HttpLink,
   InMemoryCache,
 } from '@apollo/client';
 import Page from '../components/Page';
+import { getAccessToken } from '../lib/accessToken';
+
+const httpLink = new HttpLink({
+  uri: process.env.NEXT_PUBLIC_SERVER_URL,
+  credentials: 'include',
+});
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  const accessToken = getAccessToken();
+  if (accessToken) {
+    operation.setContext(({ headers = {} }) => ({
+      headers: {
+        ...headers,
+        authorization: `bearer ${accessToken}`,
+      },
+    }));
+  }
+  return forward(operation);
+});
 
 const client = new ApolloClient({
-  link: createHttpLink({
-    uri: process.env.NEXT_PUBLIC_SERVER_URL,
-  }),
-  ssrMode: true,
   cache: new InMemoryCache(),
+  ssrMode: true,
+  link: from([authMiddleware, httpLink]),
 });
 
 function MyApp({ Component, pageProps }) {

@@ -1,4 +1,5 @@
 import { useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
 import gql from 'graphql-tag';
 import useForm from './hooks/useForm';
 
@@ -15,6 +16,7 @@ const CREATE_USER_MUTATION = gql`
 `;
 
 export default function Register() {
+  const router = useRouter();
   const { inputs, handleChange }: any = useForm({
     email: '',
     name: '',
@@ -37,7 +39,9 @@ export default function Register() {
     console.log(inputs);
     try {
       const res = await register();
-      console.log('res', res);
+      if (res) {
+        router.push('/signin');
+      }
     } catch (err) {
       console.error('error', error);
     }
