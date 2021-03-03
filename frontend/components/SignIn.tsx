@@ -28,7 +28,6 @@ export default function SignIn() {
   async function handleSubmit(e: any) {
     e.preventDefault();
     const res = await signin();
-    console.log(res);
     if (res && res.data) {
       setAccessToken(res.data.loginUser.accessToken);
     }

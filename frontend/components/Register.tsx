@@ -36,7 +36,6 @@ export default function Register() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    console.log(inputs);
     try {
       const res = await register();
       if (res) {

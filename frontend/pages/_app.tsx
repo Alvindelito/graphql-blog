@@ -1,41 +1,10 @@
-import {
-  ApolloClient,
-  ApolloLink,
-  ApolloProvider,
-  from,
-  HttpLink,
-  InMemoryCache,
-} from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import Page from '../components/Page';
-import { getAccessToken } from '../lib/accessToken';
+import { withApollo } from '../lib/withApollo';
 
-const httpLink = new HttpLink({
-  uri: process.env.NEXT_PUBLIC_SERVER_URL,
-  credentials: 'include',
-});
-
-const authMiddleware = new ApolloLink((operation, forward) => {
-  const accessToken = getAccessToken();
-  if (accessToken) {
-    operation.setContext(({ headers = {} }) => ({
-      headers: {
-        ...headers,
-        authorization: `bearer ${accessToken}`,
-      },
-    }));
-  }
-  return forward(operation);
-});
-
-const client = new ApolloClient({
-  cache: new InMemoryCache(),
-  ssrMode: true,
-  link: from([authMiddleware, httpLink]),
-});
-
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, apolloClient }) {
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <Page>
         <Component {...pageProps} />
       </Page>
@@ -43,13 +12,13 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-MyApp.getInitialProps = async function ({ Component, ctx }) {
-  let pageProps: any = {};
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
-  }
-  pageProps.query = ctx.query;
-  return { pageProps };
-};
+// MyApp.getInitialProps = async function ({ Component, ctx }) {
+//   let pageProps: any = {};
+//   if (Component.getInitialProps) {
+//     pageProps = await Component.getInitialProps(ctx);
+//   }
+//   pageProps.query = ctx.query;
+//   return { pageProps };
+// };
 
-export default MyApp;
+export default withApollo(MyApp);
