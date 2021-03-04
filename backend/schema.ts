@@ -5,7 +5,7 @@ const typeDefs = gql`
   type Query {
     getAllUsers: [User]
     getAllPosts: [Post]
-    getUser(userId: ID!): User
+    getUser: User
     getPost(postId: ID!): Post
     getPostsByUser(authorId: ID!): [Post]
     auth: String
@@ -23,6 +23,7 @@ const typeDefs = gql`
     deleteUser(id: ID!): User
 
     loginUser(data: UserLoginInput): LoginAuth
+    logoutUser: Boolean
     revokeRefreshTokensForUser(id: ID!): Boolean
   }
 

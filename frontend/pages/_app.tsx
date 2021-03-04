@@ -1,22 +1,10 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  createHttpLink,
-  InMemoryCache,
-} from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
 import Page from '../components/Page';
+import { withApollo } from '../lib/withApollo';
 
-const client = new ApolloClient({
-  link: createHttpLink({
-    uri: process.env.NEXT_PUBLIC_SERVER_URL,
-  }),
-  ssrMode: true,
-  cache: new InMemoryCache(),
-});
-
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, apolloClient }) {
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <Page>
         <Component {...pageProps} />
       </Page>
@@ -24,13 +12,13 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-MyApp.getInitialProps = async function ({ Component, ctx }) {
-  let pageProps: any = {};
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
-  }
-  pageProps.query = ctx.query;
-  return { pageProps };
-};
+// MyApp.getInitialProps = async function ({ Component, ctx }) {
+//   let pageProps: any = {};
+//   if (Component.getInitialProps) {
+//     pageProps = await Component.getInitialProps(ctx);
+//   }
+//   pageProps.query = ctx.query;
+//   return { pageProps };
+// };
 
-export default MyApp;
+export default withApollo(MyApp);

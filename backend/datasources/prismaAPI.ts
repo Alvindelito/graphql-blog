@@ -1,5 +1,7 @@
+import 'dotenv/config';
 import { DataSource } from "apollo-datasource"
 import bcrypt from 'bcrypt';
+import { verify } from "jsonwebtoken";
 import { createAccessToken, createRefreshToken } from "../lib/auth";
 import { sendRefreshToken } from "../lib/sendRefreshToken";
 
@@ -69,19 +71,33 @@ export default class prismaAPI extends DataSource {
       },
     });
   }
-  async getUser({ userId }: any) {
-    return await this.prisma.user.findUnique({
-      where: {
-        id: parseInt(userId)
-      },
-      include: {
-        profile: {
-          select: {
-            bio: true
+  async getUser({ req }: any) {
+    const authorization = req.headers["authorization"];
+
+    if (!authorization) {
+      return null;
+    }
+
+    try {
+      const token = authorization.split(" ")[1];
+      const payload: any = verify(token, process.env.ACCESS_TOKEN_SECRET!);
+      return await this.prisma.user.findUnique({
+        where: {
+          id: parseInt(payload.userId)
+        },
+        include: {
+          profile: {
+            select: {
+              bio: true
+            }
           }
         }
-      }
-    });
+      });
+    } catch(err) {
+      console.log(err);
+      return null
+    }
+
   }
   async getPost({ postId }: any) {
     return await this.prisma.post.findUnique({

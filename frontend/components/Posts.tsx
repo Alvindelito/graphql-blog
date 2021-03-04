@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 import Post from './Post';
 
-const GET_ALL_POSTS = gql`
+export const GET_ALL_POSTS = gql`
   query GET_ALL_POSTS {
     getAllPosts {
       id

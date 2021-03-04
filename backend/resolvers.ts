@@ -1,4 +1,5 @@
 import { isAuth } from "./lib/isAuth";
+import { sendRefreshToken } from "./lib/sendRefreshToken";
 
 const resolvers = {
   Query: {
@@ -6,7 +7,7 @@ const resolvers = {
 
     getAllPosts: (_: any, __: any, { dataSources }: any) => dataSources.prismaAPI.getAllPosts(),
 
-    getUser: (_: any, userId: any, { dataSources }: any) => dataSources.prismaAPI.getUser(userId),
+    getUser: (_: any, __: any, { dataSources, req }: any) => dataSources.prismaAPI.getUser({ req }),
 
     getPost: (_: any, postId: any, { dataSources }: any) => dataSources.prismaAPI.getPost(postId),
 
@@ -34,6 +35,11 @@ const resolvers = {
     deleteUser: (_: any, { id }: any, { dataSources}: any) => dataSources.prismaAPI.deleteUser( { id }),
 
     loginUser: (_: any, { data }: any, { dataSources, res}: any) => dataSources.prismaAPI.loginUser( { data }, { res }),
+
+    logoutUser: (_: any, __: any, { res }: any) => {
+      sendRefreshToken(res, "");
+      return true;
+    },
 
     revokeRefreshTokensForUser: (_: any, { id }: any, { dataSources }: any) => dataSources.prismaAPI.revokeRefreshTokensForUser({ id }),
 
