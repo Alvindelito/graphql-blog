@@ -1,7 +1,9 @@
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import useForm from './hooks/useForm';
-import { setAccessToken } from '../lib/accessToken';
+import { getAccessToken, setAccessToken } from '../lib/accessToken';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 const LOGIN_MUTATION = gql`
   mutation LOGIN_MUTATION($email: String!, $password: String!) {
@@ -12,6 +14,8 @@ const LOGIN_MUTATION = gql`
 `;
 
 export default function SignIn() {
+  const router = useRouter();
+  const token = getAccessToken();
   const { inputs, handleChange }: any = useForm({
     email: '',
     password: '',
@@ -30,11 +34,16 @@ export default function SignIn() {
     const res = await signin();
     if (res && res.data) {
       setAccessToken(res.data.loginUser.accessToken);
+      router.push('/');
     }
   }
 
+  if (token) {
+    router.push('/');
+  }
+
   return (
-    <form method="/" onSubmit={handleSubmit}>
+    <form method="POST" onSubmit={handleSubmit}>
       <h2>Sign In</h2>
       <label htmlFor="email">
         Email:

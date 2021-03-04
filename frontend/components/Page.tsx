@@ -1,3 +1,4 @@
+import { getAccessToken } from '../lib/accessToken';
 import styled, { createGlobalStyle } from 'styled-components';
 import Header from './Header';
 
