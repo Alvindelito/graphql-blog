@@ -7,7 +7,6 @@ const HeaderStyle = styled.header`
   margin: 0 auto;
   display: grid;
   grid-template-columns: auto 1fr;
-  /* align-items: stretch; */
   justify-items: end;
 `;
 

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import convertDate from '../lib/convertDate';
 
 const PostStyle = styled.div`
-  margin: 50px auto;
+  margin: 25px auto;
   border: 1px solid black;
   width: 700px;
 `;
@@ -13,12 +13,16 @@ const TitleStyle = styled.h2`
   margin: 8px;
 `;
 
+const ContentStyle = styled.p`
+  margin: 8px;
+`;
+
 export default function Post({ post }) {
   return (
     <PostStyle>
       <TitleStyle>{post.title}</TitleStyle>
-      <p>{post.content}</p>
-      <p>Created at {convertDate(post.createdAt)}</p>
+      <ContentStyle>{post.content}</ContentStyle>
+      <ContentStyle>Created at {convertDate(post.createdAt)}</ContentStyle>
     </PostStyle>
   );
 }
