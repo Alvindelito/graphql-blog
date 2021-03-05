@@ -4,8 +4,10 @@ import { useRouter } from 'next/router';
 import useForm from '../components/hooks/useForm';
 
 const CREATE_POST_MUTATION = gql`
-  mutation CREATE_POST_MUTATION($title: String!, $content: String!) {
-    createPost(title: $title, content: $content)
+  mutation CREATE_POST_MUTATION($title: String!, $content: String) {
+    createPost(data: { title: $title, content: $content }) {
+      id
+    }
   }
 `;
 
@@ -26,6 +28,7 @@ export default function NewPost() {
   async function handleSubmit(e: any) {
     e.preventDefault();
     const res = await createPost();
+    console.log(res);
     if (res && res.data) {
       router.push('/');
     }
@@ -54,12 +57,11 @@ export default function NewPost() {
       </label>
       <label htmlFor="content">
         Body:
-        <input
-          type="textarea"
+        <textarea
           name="content"
           value={inputs.content}
           onChange={handleChange}
-        />
+        ></textarea>
       </label>
       <button type="submit">Post</button>
     </form>

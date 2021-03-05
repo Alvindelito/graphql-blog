@@ -73,7 +73,6 @@ export default class prismaAPI extends DataSource {
   }
   async getUser({ req }: any) {
     const authorization = req.headers["authorization"];
-
     if (!authorization) {
       return null;
     }
@@ -139,14 +138,28 @@ export default class prismaAPI extends DataSource {
       }
     })
   }
-  async createPost({ data: { authorId, title, content }}: any) {
-    return await this.prisma.post.create({
-      data: {
-        authorId: parseInt(authorId),
-        title,
-        content,
-      }
-    })
+  async createPost({ data: { authorId, title, content }, req}: any) {
+    const authorization = req.headers["authorization"];
+    if (!authorization) {
+      return null;
+    }
+
+    try {
+      const token = authorization.split(" ")[1];
+      const payload: any = verify(token, process.env.ACCESS_TOKEN_SECRET!);
+      return await this.prisma.post.create({
+        data: {
+          authorId: parseInt(payload.userId),
+          title,
+          content,
+        }
+      })
+    } catch(err) {
+      console.log(err);
+      return null
+    }
+
+
   }
 
   // UPDATE

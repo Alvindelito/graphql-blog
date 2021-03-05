@@ -22,7 +22,7 @@ const resolvers = {
   Mutation: {
     createUser: (_: any, { data }: any, { dataSources }: any) => dataSources.prismaAPI.createUser({ data }),
 
-    createPost: (_: any, { data }: any, { dataSources }: any) => dataSources.prismaAPI.createPost({ data }),
+    createPost: (_: any, { data }: any, { dataSources, req }: any) => dataSources.prismaAPI.createPost({ data, req }),
 
     updatePost: (_: any, { data }: any, { dataSources }: any) => dataSources.prismaAPI.updatePost({ data }),
 

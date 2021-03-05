@@ -40,7 +40,7 @@ const typeDefs = gql`
   }
 
   input CreatePostInput {
-    authorId: ID!
+    authorId: ID
     title: String!
     content: String
   }
